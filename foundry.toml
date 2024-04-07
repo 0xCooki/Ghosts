@@ -11,5 +11,6 @@ gas_reports = [
 
 remappings = [
     "@openzeppelin/=lib/openzeppelin-contracts/contracts",
-    "@pandora/=lib/erc404/contracts"
+    "@pandora/=lib/erc404/contracts",
+    "@pandoraLegacy/=lib/erc404-legacy/src"
 ]
