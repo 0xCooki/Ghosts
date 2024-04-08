@@ -12,6 +12,7 @@ contract Ghosts is ERC404 {
 
     constructor(IWaka _waka) ERC404("Ghosts", "GHOST", 18, 690, msg.sender) {
         balanceOf[msg.sender] = totalSupply;
+        setWhitelist(msg.sender, true);
         waka = _waka;
         /// Blast config
     }

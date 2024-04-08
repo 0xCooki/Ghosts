@@ -10,6 +10,7 @@ contract GhostTests is Test {
     uint256 public blastFork;
 
     address public cooki = address(420);
+    address public fragments = address(690);
 
     WakaV0 public wakaV0;
     Ghosts public ghosts;
@@ -19,13 +20,27 @@ contract GhostTests is Test {
         blastFork = vm.createFork(rpcURL);
         vm.selectFork(blastFork);
 
+        vm.startPrank(cooki);
         wakaV0 = new WakaV0();
         ghosts = new Ghosts(wakaV0);
+        vm.stopPrank();
     }
 
     function testStuff() public {
         string memory output = ghosts.tokenURI(0);
 
-        console.log(output);
+        vm.startPrank(cooki);
+
+        ghosts.transfer(fragments, 1 ether + 1);
+
+        vm.stopPrank();
+
+        //console.log(output);
+
+        address ownerOf100 = ghosts.ownerOf(1);
+        uint256 balanceOfOwner = ghosts.balanceOf(cooki);
+        
+        console.log("Balance Of Owner: ", balanceOfOwner);
+        console.log("Owner of 0: ", ownerOf100);
     }
 }
