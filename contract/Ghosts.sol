@@ -6,7 +6,7 @@ import {IWaka} from "./IWaka.sol";
 
 /// @title Ghosts
 /// @author Cooki
-/// @notice Waka waka waka
+/// @notice Waka waka
 contract Ghosts is ERC404 {
     IWaka public waka;
 
@@ -18,10 +18,12 @@ contract Ghosts is ERC404 {
     }
 
     function tokenURI(uint256 id) public view override returns (string memory) {
-        return waka.draw(id);
+        return waka.waka(id);
     }
 
     function setWaka(IWaka _waka) external onlyOwner {
         waka = _waka;
     }
+
+    /// put in recieve and withdrawal functions, maybe one with arbitrary calldata too for erc20s and 721s
 }

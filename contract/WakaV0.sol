@@ -7,7 +7,7 @@ import {Base64} from "@openzeppelin/utils/Base64.sol";
 
 /// ToDo Psychedelia, eyes, persistence(?)
 contract WakaV0 is IWaka {
-    function draw(uint256 _tokenId) external view returns (string memory) {
+    function waka(uint256 _tokenId) external view returns (string memory) {
         bytes memory background = 'cornsilk';
 
         /// Style

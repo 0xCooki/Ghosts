@@ -3,5 +3,5 @@ pragma solidity 0.8.24;
 
 /// @notice The interface for Ghosts on-chain SVG
 interface IWaka {
-    function draw(uint256 _tokenId) external view returns (string memory);
+    function waka(uint256 _tokenId) external view returns (string memory);
 }
