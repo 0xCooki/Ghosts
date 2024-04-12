@@ -13,26 +13,11 @@ contract Ghosts is ERC404 {
     IWaka public waka;
 
     constructor(IWaka _waka, address _owner) ERC404("Ghosts", "GHOST", 18, 690, _owner) {
-        /// Supply
         balanceOf[_owner] = totalSupply;
         whitelist[_owner] = true;
-
-        /// Art
         waka = _waka;
-
-        /// Blast
         //blast.configureClaimableGas();
     }
-
-    receive() external payable {
-        revert();
-    }
-
-    function tokenURI(uint256 id) public view override returns (string memory) {
-        return waka.waka(id);
-    }
-
-    /// OWNER ///
 
     function setWaka(IWaka _waka) external onlyOwner {
         waka = _waka;
@@ -40,5 +25,9 @@ contract Ghosts is ERC404 {
 
     function claimGas() external onlyOwner {
         blast.claimAllGas(address(this), msg.sender);
+    }
+
+    function tokenURI(uint256 id) public view override returns (string memory) {
+        return waka.waka(id);
     }
 }

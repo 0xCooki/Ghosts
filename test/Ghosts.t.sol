@@ -25,8 +25,11 @@ contract GhostTests is Test {
     }
 
     function testStuff() public {
-        //string memory output = ghosts.tokenURI(0);
+        string memory output = ghosts.tokenURI(0);
 
+        console.log(output);
+
+        /*
         vm.startPrank(cooki);
 
         ghosts.transfer(fragments, 1 ether + 1);
@@ -38,5 +41,6 @@ contract GhostTests is Test {
         
         console.log("Balance Of Owner: ", balanceOfOwner);
         console.log("Owner of 0: ", ownerOf100);
+        */
     }
 }
