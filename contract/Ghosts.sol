@@ -2,28 +2,43 @@
 pragma solidity 0.8.24;
 
 import {ERC404} from "@pandoraLegacy/ERC404.sol";
-import {IWaka} from "./IWaka.sol";
+import {IBlast} from "./interface/IBlast.sol";
+import {IWaka} from "./interface/IWaka.sol";
 
 /// @title Ghosts
 /// @author Cooki
 /// @notice Waka waka
 contract Ghosts is ERC404 {
+    IBlast public constant blast = IBlast(0x4300000000000000000000000000000000000002);
     IWaka public waka;
 
-    constructor(IWaka _waka) ERC404("Ghosts", "GHOST", 18, 690, msg.sender) {
-        balanceOf[msg.sender] = totalSupply;
-        setWhitelist(msg.sender, true);
+    constructor(IWaka _waka, address _owner) ERC404("Ghosts", "GHOST", 18, 690, _owner) {
+        /// Supply
+        balanceOf[_owner] = totalSupply;
+        whitelist[_owner] = true;
+
+        /// Art
         waka = _waka;
-        /// Blast config
+
+        /// Blast
+        //blast.configureClaimableGas();
+    }
+
+    receive() external payable {
+        revert();
     }
 
     function tokenURI(uint256 id) public view override returns (string memory) {
         return waka.waka(id);
     }
 
+    /// OWNER ///
+
     function setWaka(IWaka _waka) external onlyOwner {
         waka = _waka;
     }
 
-    /// put in recieve and withdrawal functions, maybe one with arbitrary calldata too for erc20s and 721s
+    function claimGas() external onlyOwner {
+        blast.claimAllGas(address(this), msg.sender);
+    }
 }

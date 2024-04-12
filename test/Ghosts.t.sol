@@ -20,22 +20,18 @@ contract GhostTests is Test {
         blastFork = vm.createFork(rpcURL);
         vm.selectFork(blastFork);
 
-        vm.startPrank(cooki);
         wakaV0 = new WakaV0();
-        ghosts = new Ghosts(wakaV0);
-        vm.stopPrank();
+        ghosts = new Ghosts(wakaV0, cooki);
     }
 
     function testStuff() public {
-        string memory output = ghosts.tokenURI(0);
+        //string memory output = ghosts.tokenURI(0);
 
         vm.startPrank(cooki);
 
         ghosts.transfer(fragments, 1 ether + 1);
 
         vm.stopPrank();
-
-        //console.log(output);
 
         address ownerOf100 = ghosts.ownerOf(1);
         uint256 balanceOfOwner = ghosts.balanceOf(cooki);

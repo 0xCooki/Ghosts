@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.24;
 
-import {IWaka} from "./IWaka.sol";
+import {IWaka} from "./interface/IWaka.sol";
 import {Strings} from "@openzeppelin/utils/Strings.sol";
 import {Base64} from "@openzeppelin/utils/Base64.sol";
 
