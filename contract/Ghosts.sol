@@ -7,7 +7,7 @@ import {IWaka} from "./interface/IWaka.sol";
 
 /// @title Ghosts
 /// @author Cooki
-/// @notice Waka waka
+/// @notice WAKA WAKA
 contract Ghosts is ERC404 {
     IBlast public constant blast = IBlast(0x4300000000000000000000000000000000000002);
     IWaka public waka;
@@ -19,15 +19,15 @@ contract Ghosts is ERC404 {
         //blast.configureClaimableGas();
     }
 
+    function tokenURI(uint256 id) public view override returns (string memory) {
+        return waka.waka(id);
+    }
+
     function setWaka(IWaka _waka) external onlyOwner {
         waka = _waka;
     }
 
     function claimGas() external onlyOwner {
         blast.claimAllGas(address(this), msg.sender);
-    }
-
-    function tokenURI(uint256 id) public view override returns (string memory) {
-        return waka.waka(id);
     }
 }
