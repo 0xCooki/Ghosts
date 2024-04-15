@@ -24,7 +24,7 @@ contract GhostTests is Test {
         ghosts = new Ghosts(wakaV0, cooki);
     }
 
-    function testStuff() public {
+    function testStuff() public view {
         string memory output = ghosts.tokenURI(0);
 
         console.log(output);

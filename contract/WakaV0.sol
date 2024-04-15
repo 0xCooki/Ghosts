@@ -8,13 +8,13 @@ import {Base64} from "@openzeppelin/utils/Base64.sol";
 contract WakaV0 is IWaka {
     /// STRUCTS ///
     
-    /// flatBackground, roundBackground, flatBody, roundBody
+    /// @dev flatBackground, roundBackground, flatBody, roundBody
     struct Unit0 {
         bytes core;
         bytes name;
     }
 
-    /// eyePositions
+    /// @dev eyePositions
     struct Unit1 {
         bytes x0;
         bytes x1;
@@ -62,51 +62,63 @@ contract WakaV0 is IWaka {
     }
 
     function _initEyePositions() internal {
-        eyePositions[0] = Unit1({x0: "200", x1: "500", y0: "747", y1: "400", name: ""});
+        eyePositions[0] = Unit1({x0: "160", x1: "310", y0: "200", y1: "200", name: ""});
     }
 
     /// ART ///
 
     function waka(uint256 _tokenId) external view returns (string memory) {
-        Unit0 memory backgroundData = _getFlatBackground(_tokenId);
+        uint256 seed = uint256(keccak256(abi.encodePacked(_tokenId)));
 
-        bool isInverted = true; /// Inverted: background round, body flat
+        /// @dev Inverted: background round, body flat
+        bool isInverted = _getIsInverted(seed);
+
+        Unit0 memory flatBackgroundData = _getFlatBackground(seed);
+        Unit0 memory roundBackgroundData = _getRoundBackground(seed);
+        Unit0 memory flatBodyData = _getFlatBody(seed);
+        Unit0 memory roundBodyData = _getRoundBody(seed);
+        Unit1 memory eyePositionData = _getEyePosition(seed);
 
         /// Setup
         bytes memory svgHTML = abi.encodePacked('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 500 500" >');
 
-        /// Background
+        /// Background and Body
         if (isInverted) {
-            svgHTML = abi.encodePacked(svgHTML, '<rect width="500" height="500" x="0" y="0" fill="', backgroundData.core, '"><animate attributeName="fill" values="cornsilk;black;cornsilk" dur="10s" repeatCount="indefinite" /></rect>');
+            svgHTML = abi.encodePacked(svgHTML, '<rect width="500" height="500" x="0" y="0" fill="', flatBackgroundData.core, '"><animate attributeName="fill" values="', roundBackgroundData.core,'" dur="10s" repeatCount="indefinite" /></rect>');
+            svgHTML = abi.encodePacked(svgHTML, '<path d="M50,250 C50,0 450,0 450,250 L450,450 C425.72,450 407.61,383.33, 383.33,383.33 C359.05,383.33 340.94,450, 316.66,450 C292.38,450 274.28,383.33 250,383.33 C225.72,383.33 207.61,450 183.33,450 C159.05,450 140.94,383.33 116.66,383.33 C92.38,383.33 74.28,450 50,450 Z" fill="', flatBodyData.core,'" stroke="black" stroke-width="0.4%" />');
         } else {
-            svgHTML = abi.encodePacked(svgHTML, '<rect width="500" height="500" x="0" y="0" fill="', backgroundData.core, '" />');
-        }
-
-        /// Ghost
-        /// Body
-        if (isInverted) {
-            svgHTML = abi.encodePacked(svgHTML, '<path d="M50,250 C50,0 450,0 450,250 L450,450 C425.72,450 407.61,383.33, 383.33,383.33 C359.05,383.33 340.94,450, 316.66,450 C292.38,450 274.28,383.33 250,383.33 C225.72,383.33 207.61,450 183.33,450 C159.05,450 140.94,383.33 116.66,383.33 C92.38,383.33 74.28,450 50,450 Z" fill="purple" stroke="black" stroke-width="0.4%" />');
-        } else {
-            svgHTML = abi.encodePacked(svgHTML, '<path d="M50,250 C50,0 450,0 450,250 L450,450 C425.72,450 407.61,383.33, 383.33,383.33 C359.05,383.33 340.94,450, 316.66,450 C292.38,450 274.28,383.33 250,383.33 C225.72,383.33 207.61,450 183.33,450 C159.05,450 140.94,383.33 116.66,383.33 C92.38,383.33 74.28,450 50,450 Z" fill="purple" stroke="black" stroke-width="0.4%" ><animate attributeName="fill" values="crimson;purple;crimson" dur="10s" repeatCount="indefinite" /></path>');
+            svgHTML = abi.encodePacked(svgHTML, '<rect width="500" height="500" x="0" y="0" fill="', flatBackgroundData.core, '" />');
+            svgHTML = abi.encodePacked(svgHTML, '<path d="M50,250 C50,0 450,0 450,250 L450,450 C425.72,450 407.61,383.33, 383.33,383.33 C359.05,383.33 340.94,450, 316.66,450 C292.38,450 274.28,383.33 250,383.33 C225.72,383.33 207.61,450 183.33,450 C159.05,450 140.94,383.33 116.66,383.33 C92.38,383.33 74.28,450 50,450 Z" fill="', flatBodyData.core,'" stroke="black" stroke-width="0.4%" ><animate attributeName="fill" values="', roundBodyData.core,'" dur="10s" repeatCount="indefinite" /></path>');
         }
 
         /// Eye whites
         svgHTML = abi.encodePacked(svgHTML, '<circle cx="175" cy="200" r="50" fill="white" stroke="black" stroke-width="0.4%"/><circle cx="325" cy="200" r="50" fill="white" stroke="black" stroke-width="0.4%"/>');
         /// Eye blues
-        svgHTML = abi.encodePacked(svgHTML, '<circle cx="160" cy="200" r="23" fill="darkblue" stroke="black" stroke-width="0.4%"/><circle cx="310" cy="200" r="23" fill="darkblue" stroke="black" stroke-width="0.4%"/></svg>');
+        svgHTML = abi.encodePacked(svgHTML, '<circle cx="', eyePositionData.x0,'" cy="', eyePositionData.y0,'" r="23" fill="darkblue" stroke="black" stroke-width="0.4%"/><circle cx="', eyePositionData.x1,'" cy="', eyePositionData.y1,'" r="23" fill="darkblue" stroke="black" stroke-width="0.4%"/></svg>');
 
         /// Metadata
         svgHTML = abi.encodePacked(
             '{"name": "Ghosts #',
             bytes(Strings.toString(_tokenId)), 
-            '", "description": "", "image": "data:image/svg+xml;base64,', 
+            '", "description": "Ghosts in the machine - WAKA WAKA WAKA WAKA", "image": "data:image/svg+xml;base64,', 
             Base64.encode(svgHTML), 
             '"'
         );
         svgHTML = abi.encodePacked(
             svgHTML,
-            ', "attributes": [{"trait_type": "Background", "value": "',
-            backgroundData.name,
+            ', "attributes": [{"trait_type": "Background A", "value": "',
+            flatBackgroundData.name,
+            '"}, {"trait_type": "Background B", "value": "',
+            roundBackgroundData.name,
+            '"}, {"trait_type": "Body A", "value": "',
+            flatBodyData.name
+        );
+        svgHTML = abi.encodePacked(
+            svgHTML,
+            '"}, {"trait_type": "Body B", "value": "',
+            roundBodyData.name,
+            '"}, {"trait_type": "Eyes", "value": "',
+            eyePositionData.name,
             '"}]}'
         );
 
@@ -115,11 +127,27 @@ contract WakaV0 is IWaka {
 
     /// GETTERS ///
     
-    function _getFlatBackground(uint256 _tokenId) internal view returns (Unit0 memory) {
-        return flatBackgrounds[_tokenId % flatBackgrounds.length];
+    function _getIsInverted(uint256 _seed) internal pure returns (bool) {
+        return ((_seed % 10) == 0) ? true : false;
     }
 
-    function _getFlatBodies(uint256 _tokenId) internal view returns (Unit0 memory) {
-        return flatBodies[_tokenId % flatBodies.length];
+    function _getFlatBackground(uint256 _seed) internal view returns (Unit0 memory) {
+        return flatBackgrounds[_seed % flatBackgrounds.length];
+    }
+
+    function _getRoundBackground(uint256 _seed) internal view returns (Unit0 memory) {
+        return roundBackgrounds[_seed % roundBackgrounds.length];
+    }
+
+    function _getFlatBody(uint256 _seed) internal view returns (Unit0 memory) {
+        return flatBodies[_seed % flatBodies.length];
+    }
+
+    function _getRoundBody(uint256 _seed) internal view returns (Unit0 memory) {
+        return roundBodies[_seed % roundBodies.length];
+    }
+
+    function _getEyePosition(uint256 _seed) internal view returns (Unit1 memory) {
+        return eyePositions[_seed % eyePositions.length];
     }
 }
