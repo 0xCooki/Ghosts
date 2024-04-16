@@ -24,23 +24,16 @@ contract GhostTests is Test {
         ghosts = new Ghosts(wakaV0, cooki);
     }
 
-    function testStuff() public view {
+    function testInit() public {
+        assertEq(address(ghosts.blast()), 0x4300000000000000000000000000000000000002);
+        assertEq(address(ghosts.waka()), address(wakaV0));
+        assertEq(ghosts.totalSupply(), 690 * 10 ** 18);
+        assertEq(ghosts.balanceOf(cooki), 690 * 10 ** 18);
+        assertEq(ghosts.whitelist(cooki), true);
+    }
+
+    function testTokenURIOutput() public view {
         string memory output = ghosts.tokenURI(0);
-
         console.log(output);
-
-        /*
-        vm.startPrank(cooki);
-
-        ghosts.transfer(fragments, 1 ether + 1);
-
-        vm.stopPrank();
-
-        address ownerOf100 = ghosts.ownerOf(1);
-        uint256 balanceOfOwner = ghosts.balanceOf(cooki);
-        
-        console.log("Balance Of Owner: ", balanceOfOwner);
-        console.log("Owner of 0: ", ownerOf100);
-        */
     }
 }
