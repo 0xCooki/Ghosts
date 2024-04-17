@@ -25,11 +25,11 @@ contract WakaV0 is IWaka {
 
     /// VARIABLES ///
 
-    Unit0[1] private flatBackgrounds;
-    Unit0[1] private roundBackgrounds;
-    Unit0[1] private flatBodies;
-    Unit0[1] private roundBodies;
-    Unit1[1] private eyePositions;
+    Unit0[8] private flatBackgrounds;
+    Unit0[6] private roundBackgrounds;
+    Unit0[7] private flatBodies;
+    Unit0[9] private roundBodies;
+    Unit1[10] private eyePositions;
     
     constructor() {
         _init();
@@ -46,23 +46,58 @@ contract WakaV0 is IWaka {
     }
 
     function _initFlatBackgrounds() internal {
-        flatBackgrounds[0] = Unit0({core: "cornsilk", name: ""});
+        flatBackgrounds[0] = Unit0({core: "#EFE3AB", name: ""});
+        flatBackgrounds[1] = Unit0({core: "#CB297A", name: ""});
+        flatBackgrounds[2] = Unit0({core: "#2974CB", name: ""});
+        flatBackgrounds[3] = Unit0({core: "#E47E62", name: ""});
+        flatBackgrounds[4] = Unit0({core: "#60D5C6", name: ""});
+        flatBackgrounds[5] = Unit0({core: "#F0F061", name: ""});
+        flatBackgrounds[6] = Unit0({core: "#35966C", name: ""});
+        flatBackgrounds[7] = Unit0({core: "#67665E", name: ""});
     }
 
     function _initRoundBackgrounds() internal {
-        roundBackgrounds[0] = Unit0({core: "cornsilk;black;cornsilk", name: ""});
+        roundBackgrounds[0] = Unit0({core: "#D5D4CF;#363630;#D5D4CF", name: ""});
+        roundBackgrounds[1] = Unit0({core: "#1961C2;#0CA983;#0B7F29;#1961C2", name: ""});
+        roundBackgrounds[2] = Unit0({core: "#AF1429;#6F14AF;#AF1429", name: ""});
+        roundBackgrounds[3] = Unit0({core: "#DA2D44;#DA542D;#E8C70E;#DA2D44", name: ""});
+        roundBackgrounds[4] = Unit0({core: "#25B5EA;#2534EA;#8D11BB;#25B5EA", name: ""});
+        roundBackgrounds[5] = Unit0({core: "#87F24D;#E6F24D;#87F24D", name: ""});
     }
 
     function _initFlatBodies() internal {
-        flatBodies[0] = Unit0({core: "crimson", name: ""});
+        flatBodies[0] = Unit0({core: "#2547BC", name: ""});
+        flatBodies[1] = Unit0({core: "#DE1D1D", name: ""});
+        flatBodies[2] = Unit0({core: "#DE1D9F", name: ""});
+        flatBodies[3] = Unit0({core: "#67DA13", name: ""});
+        flatBodies[4] = Unit0({core: "#DA5B13", name: ""});
+        flatBodies[5] = Unit0({core: "#800AD7", name: ""});
+        flatBodies[6] = Unit0({core: "#EAE30B", name: ""});
     }
 
     function _initRoundBodies() internal {
-        roundBodies[0] = Unit0({core: "crimson;purple;crimson", name: ""});
+        roundBodies[0] = Unit0({core: "#E84186;#174EBC;#E84186", name: ""});
+        roundBodies[1] = Unit0({core: "#E77D2B;#9129DE;#DE2E29;#E77D2B", name: ""});
+        roundBodies[2] = Unit0({core: "#2DC197;#66716E;#0E5E95;#2DC197", name: ""});
+        roundBodies[3] = Unit0({core: "#963584;#6B5FCB;#963584", name: ""});
+        roundBodies[4] = Unit0({core: "#C80B59;#F07F0F;#F0E60F;#C80B59", name: ""});
+        roundBodies[5] = Unit0({core: "#24D318;#6E18D3;#24D318", name: ""});
+        roundBodies[6] = Unit0({core: "#18D3C4;#167AAB;#271DA0;#18D3C4", name: ""});
+        roundBodies[7] = Unit0({core: "#FFFEFF;#727178;#FFFEFF", name: ""});
+        roundBodies[8] = Unit0({core: "#DB31F9;#F931B3;#B86CD7;#DB31F9", name: ""});
     }
 
     function _initEyePositions() internal {
-        eyePositions[0] = Unit1({x0: "160", x1: "310", y0: "200", y1: "200", name: ""});
+        eyePositions[0] = Unit1({x0: "175", x1: "325", y0: "200", y1: "200", name: ""});
+        eyePositions[1] = Unit1({x0: "160", x1: "310", y0: "200", y1: "200", name: ""});
+        eyePositions[2] = Unit1({x0: "190", x1: "310", y0: "200", y1: "200", name: ""});
+        eyePositions[3] = Unit1({x0: "190", x1: "340", y0: "200", y1: "200", name: ""});
+        eyePositions[4] = Unit1({x0: "175", x1: "325", y0: "185", y1: "185", name: ""});
+        eyePositions[5] = Unit1({x0: "175", x1: "325", y0: "215", y1: "215", name: ""});
+        eyePositions[6] = Unit1({x0: "190", x1: "310", y0: "215", y1: "215", name: ""});
+        eyePositions[7] = Unit1({x0: "190", x1: "340", y0: "215", y1: "215", name: ""});
+        eyePositions[8] = Unit1({x0: "190", x1: "340", y0: "185", y1: "185", name: ""});
+        eyePositions[9] = Unit1({x0: "160", x1: "310", y0: "185", y1: "185", name: ""});
     }
 
     /// ART ///
@@ -119,6 +154,8 @@ contract WakaV0 is IWaka {
             roundBodyData.name,
             '"}, {"trait_type": "Eyes", "value": "',
             eyePositionData.name,
+            '"}, {"trait_type": "Inverted", "value": "',
+            (isInverted ? "true" : "false"),
             '"}]}'
         );
 
