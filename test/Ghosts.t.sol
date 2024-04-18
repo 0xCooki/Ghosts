@@ -33,7 +33,7 @@ contract GhostTests is Test {
     }
 
     function testTokenURIOutput() public view {
-        string memory output = ghosts.tokenURI(1);
+        string memory output = ghosts.tokenURI(0);
         console.log(output);
     }
 }
