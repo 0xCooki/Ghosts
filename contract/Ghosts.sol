@@ -5,7 +5,7 @@ import {ERC404} from "@pandoraLegacy/ERC404.sol";
 import {IBlast} from "./interface/IBlast.sol";
 import {IWaka} from "./interface/IWaka.sol";
 
-/// @title Ghosts
+/// @title Ghosts 
 /// @author Cooki
 /// @notice WAKA WAKA
 contract Ghosts is ERC404 {
