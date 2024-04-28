@@ -6,9 +6,10 @@ Built using [Foundry](https://book.getfoundry.sh/), and the ERC404 standards fro
 
 ### Art
 
+Below are some static previews of the animated ghost art derived on-chain using `WakaV0.sol`. While most ghosts glow and cycle through different colours, some remain monochrome while their background oscilates.
+
 | ![S0](./art/s0.png) | ![S2](./art/s2.png) |
 | -------- | -------- |
-| ![M0](./art/r0.mov) | ![M1](./art/r1.mov) |
 | ![S1](./art/s1.png) | ![S3](./art/s3.png) |
 
 
