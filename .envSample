@@ -1,2 +1,4 @@
 PRIVATE_KEY=0x00
-RPC_URL=https://rpc.blastblockchain.com
+RPC_URL=https://rpc.blast.io
+TESTNET_RPC_URL=https://sepolia.blast.io
+ETHERSCAN_API_KEY=0000

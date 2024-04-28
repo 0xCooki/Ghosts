@@ -16,7 +16,7 @@ contract Ghosts is ERC404 {
         balanceOf[_owner] = totalSupply;
         whitelist[_owner] = true;
         waka = _waka;
-        //blast.configureClaimableGas();
+        blast.configureClaimableGas();
     }
 
     function tokenURI(uint256 id) public view override returns (string memory) {
